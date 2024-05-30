@@ -1,11 +1,14 @@
 package com.example.api.models.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreateAuthorResponse {
-    private int authorId;
+    private Long authorId;
     private String message;
+    private Integer errorCode;
+    private String errorMessage;
+    private String errorDetails;
 }

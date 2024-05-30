@@ -8,4 +8,7 @@ import lombok.Data;
 public class CreateBookResponse {
     private int bookId;
     private String message;
+    private Integer errorCode;
+    private String errorMessage;
+    private String errorDetails;
 }

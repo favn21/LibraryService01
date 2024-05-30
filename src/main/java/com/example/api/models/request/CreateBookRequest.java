@@ -6,6 +6,11 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class CreateBookRequest {
-    private String title;
-    private int authorId;
+    private String bookTitle;
+    private Author author;
+
+    @Data
+    public static class Author {
+        private Long id;
+    }
 }

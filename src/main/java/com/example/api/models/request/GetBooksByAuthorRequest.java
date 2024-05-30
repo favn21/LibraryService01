@@ -6,5 +6,5 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class GetBooksByAuthorRequest {
-    private int authorId;
+    private Long authorId;
 }
