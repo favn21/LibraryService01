@@ -7,7 +7,6 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CreateAuthorResponse {
     private Long authorId;
-    private String message;
     private Integer errorCode;
     private String errorMessage;
     private String errorDetails;
