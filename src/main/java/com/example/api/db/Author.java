@@ -6,8 +6,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Author {
-    private long id;
+    private Long id;
     private String firstName;
-    private String familyName;
     private String secondName;
+    private String familyName;
+
+    public Author(Long id) {
+        this.id = id;
+    }
 }

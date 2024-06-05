@@ -1,34 +1,40 @@
 package com.example.api.tests;
 
-import io.qameta.allure.Description;
+import com.example.api.models.request.CreateBookRequest;
+import com.example.api.models.response.CreateBookResponse;
+import com.example.api.db.Author;
+import com.example.api.service.RequestBuilder;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Epic("Library Service")
-@Story("Создание новой книги")
+@Epic("Library Service Tests")
+@Story("Create Book")
 public class CreateBookTest extends BaseTest {
+    private final static String URL = "http://localhost:8080";
 
     @Test
-    @DisplayName("Сохранение новой книги")
-    @Description("Тест для проверки успешного сохранения новой книги")
-    public void testSaveNewBook() {
-        String bookTitle = "Детство";
-        int authorId = 653;
+    @DisplayName("Create Book - Success")
+    public void testCreateBook() {
+        RequestBuilder.instalSpecification(RequestBuilder.requestSpec(URL), RequestBuilder.responseSpecOK200());
 
-        given()
-                .spec(requestSpecification)
-                .body("{\"book_title\": \"" + bookTitle + "\", \"author\": {\"authorId\": " + authorId + "}}")
+        Author author = new Author();
+        author.setId(2L);
+
+        CreateBookRequest request = new CreateBookRequest("Два гусара", author);
+
+        CreateBookResponse response = given()
+                .body(request)
                 .when()
-                .post("/books/save")
-                .then()
-                .statusCode(200)
-                .body("message", equalTo("Книга успешно сохранена"))
-                .body("bookId", equalTo(4734));
+                .post("/library/books/save")
+                .then().log().all()
+                .extract().as(CreateBookResponse.class);
+
+        assertNotNull(response);
+        assertNotNull(response.getBookId());
     }
 }

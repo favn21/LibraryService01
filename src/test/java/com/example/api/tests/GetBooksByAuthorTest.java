@@ -1,60 +1,65 @@
 package com.example.api.tests;
 
-import com.example.api.models.response.GetBooksByAuthorResponse.Book;
-import io.qameta.allure.Description;
+import com.example.api.models.request.GetBooksByAuthorRequest;
+import com.example.api.models.response.GetBooksByAuthorResponse;
+import com.example.api.models.response.GetBooksByAuthorResponse.BookDetail;
+import com.example.api.service.RequestBuilder;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
-
-@Epic("Library Service")
-@Story("Получение книг по автору")
+@Epic("Library Service Tests")
+@Story("Get Books by Author")
 public class GetBooksByAuthorTest extends BaseTest {
+    private final static String URL = "http://localhost:8080";
 
     @Test
-    @DisplayName("Тест получения книг по автору (JSON)")
-    @Description("Проверка успешного получения книг по автору в формате JSON")
-    public void testGetBooksByAuthorJSON() {
-        Long authorId = 1L;
+    @DisplayName("Get Books by Author - Success")
+    public void testGetBooksByAuthor() {
+        RequestBuilder.instalSpecification(RequestBuilder.requestSpec(URL), RequestBuilder.responseSpecOK200());
 
-        List<Book> books = given()
-                .spec(requestSpec)
-                .queryParam("authorId", authorId)
+        GetBooksByAuthorRequest request = new GetBooksByAuthorRequest(2L);
+
+        GetBooksByAuthorResponse response = given()
+                .body(request)
                 .when()
-                .get("/books")
-                .then()
-                .statusCode(200)
-                .extract()
-                .jsonPath()
-                .getList(".", Book.class);
+                .post("/library/authors/books")
+                .then().log().all()
+                .extract().as(GetBooksByAuthorResponse.class);
 
-        assert books.size() > 0;
-        assert books.get(0).getAuthor().getId() == authorId;
+        assertNotNull(response);
+        assertNotNull(response.getBooks());
     }
 
     @Test
-    @DisplayName("Тест получения книг по автору (XML)")
-    @Description("Проверка успешного получения книг по автору в формате XML")
+    @DisplayName("Get Books by Author (XML) - Success")
     public void testGetBooksByAuthorXML() {
-        Long authorId = 1L;
+        RequestBuilder.instalSpecification(RequestBuilder.requestSpec(URL), RequestBuilder.responseSpecOK200());
 
-        List<Book> books = given()
-                .spec(requestSpec)
+        String requestBody = "<author><author_id>2</author_id></author>";
+
+        GetBooksByAuthorResponse response = given()
                 .contentType("application/xml")
-                .queryParam("authorId", authorId)
+                .body(requestBody)
                 .when()
-                .get("/books/xml")
-                .then()
-                .statusCode(200)
-                .extract()
-                .xmlPath()
-                .getList(".", Book.class);
+                .post("/library/authors/books")
+                .then().log().all()
+                .extract().as(GetBooksByAuthorResponse.class);
 
-        assert books.size() > 0;
-        assert books.get(0).getAuthor().getId() == authorId;
+        assertNotNull(response);
+        List<BookDetail> books = response.getBooks();
+        assertNotNull(books);
+        assertTrue(books.size() > 0);
+
+        for (BookDetail book : books) {
+            Long authorId = book.getAuthorId();
+            assertNotNull(authorId);
+            assertTrue(authorId.equals(2L));
+        }
     }
 }

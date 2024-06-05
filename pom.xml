@@ -38,27 +38,34 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>5.4.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.dataformat</groupId>
-      <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.16.2</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-      <version>4.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>2.3.1</version>
-    </dependency>
+      <!-- REST Assured -->
+      <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>4.4.0</version>
+      </dependency>
+
+      <!-- Jackson Dataformat XML -->
+      <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-xml</artifactId>
+        <version>2.12.3</version>
+      </dependency>
+
+      <!-- JAXB API -->
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.1</version>
+      </dependency>
+
+      <!-- Allure -->
+      <dependency>
+        <groupId>io.qameta.allure</groupId>
+        <artifactId>allure-junit5</artifactId>
+        <version>2.13.8</version>
+      </dependency>
+    </dependencies>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -78,23 +85,7 @@
       <artifactId>okhttp</artifactId>
       <version>4.9.1</version>
     </dependency>
-      <dependency>
-          <groupId>javax.xml.bind</groupId>
-          <artifactId>jaxb-api</artifactId>
-          <version>2.3.1</version>
-      </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.32</version>
-    </dependency>
 
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.2.6</version>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
