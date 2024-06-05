@@ -39,4 +39,4 @@ build/
 /target
 /.idea
 /.allure
-/.allure-resorses
+/allure-results
